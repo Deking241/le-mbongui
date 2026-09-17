@@ -1,6 +1,6 @@
-# NEXUS PLAY — Site vitrine
+# Le Mbongui — Site vitrine
 
-Site marketing responsive pour un bar gaming, créé en HTML5, CSS3 et JavaScript vanilla.
+Site marketing responsive pour un bar à jeux vidéo et de société, créé en HTML5, CSS3 et JavaScript vanilla.
 
 ## Lancer localement
 
@@ -8,7 +8,7 @@ Ouvrez simplement `index.html` dans votre navigateur. Pour une expérience de d�
 
 ## Personnalisation rapide
 
-- Nom, adresse, téléphone et e-mail : recherchez `NEXUS PLAY`, `Libreville`, `+241` et `hello@nexusplay.ga` dans `index.html`.
+- Nom, adresse, téléphone et e-mail : recherchez `Le Mbongui`, `Libreville`, `+241` et `orphenova0@gmail.com` dans `index.html`.
 - Tarifs : modifiez les montants dans les cartes de la section `#tarifs` de `index.html`.
 - Images : les photos actuelles sont chargées depuis Unsplash. Remplacez les attributs `src` par vos propres fichiers, idéalement déposés dans `images/`.
 - Réservation : le formulaire valide les champs côté navigateur. Branchez son événement `submit` à votre solution e-mail, CRM ou serveur pour traiter réellement les demandes.
