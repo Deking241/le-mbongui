@@ -48,6 +48,18 @@ document.addEventListener('DOMContentLoaded', () => {
     status.textContent = 'Votre demande est prete : envoyez-la sur WhatsApp et par e-mail.';
     form.reset();
   });
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.game-card, .event-card, .price-card').forEach(card => {
+      card.addEventListener('pointermove', event => {
+        const box = card.getBoundingClientRect();
+        const rotateX = ((event.clientY - box.top) / box.height - .5) * -5;
+        const rotateY = ((event.clientX - box.left) / box.width - .5) * 5;
+        card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+      });
+      card.addEventListener('pointerleave', () => { card.style.transform = ''; });
+    });
+  }
 });
+
 
 
