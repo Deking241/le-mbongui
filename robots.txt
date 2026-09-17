@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://VOTRE-DOMAINE.fr/sitemap.xml
+Sitemap: https://deking241.github.io/le-mbongui/sitemap.xml
+
