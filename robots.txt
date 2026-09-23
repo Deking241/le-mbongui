@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
-Sitemap: https://deking241.github.io/le-mbongui/sitemap.xml
+Sitemap: https://le-mbongui.bernisorphe.workers.dev/sitemap.xml
+
 
