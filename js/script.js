@@ -1,9 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
   const WHATSAPP_NUMBER = '24174866022';
   const RESERVATION_EMAIL = 'orphenova0@gmail.com';
+  // Le stockage peut être bloqué (mode privé, navigateurs intégrés d'Instagram/TikTok) :
+  // on ne laisse jamais cette erreur arrêter le reste du script.
+  const store = {
+    get(key) { try { return localStorage.getItem(key); } catch (error) { return null; } },
+    set(key, value) { try { localStorage.setItem(key, value); } catch (error) { /* ignoré */ }
+    }
+  };
   const banner = document.querySelector('.cookie-banner');
-  if (banner && !localStorage.getItem('cookie-choice')) banner.hidden = false;
-  banner?.addEventListener('click', e => { const choice = e.target.dataset.cookie; if (!choice) return; localStorage.setItem('cookie-choice', choice); banner.hidden = true; });
+  if (banner && !store.get('cookie-choice')) banner.hidden = false;
+  banner?.addEventListener('click', e => { const choice = e.target.dataset.cookie; if (!choice) return; store.set('cookie-choice', choice); banner.hidden = true; });
   const header = document.querySelector('.site-header');
   const menu = document.querySelector('.nav');
   const toggle = document.querySelector('.menu-toggle');
@@ -14,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   const stats = document.querySelector('.hero-stats');
   let counted = false;
-  new IntersectionObserver(entries => { if(entries[0].isIntersecting && !counted) { counted = true; document.querySelectorAll('[data-count]').forEach(el => { const target=+el.dataset.count; let n=0; const tick=()=>{ n+=Math.ceil(target/32); if(n<target){el.textContent=n;requestAnimationFrame(tick)}else el.textContent=target+'+'};tick(); }); } }, {threshold:.5}).observe(stats);
-  document.querySelectorAll('.filters').forEach(group => group.addEventListener('click', e => { if(e.target.tagName !== 'BUTTON') return; group.querySelector('.active').classList.remove('active'); e.target.classList.add('active'); const target=e.target.dataset.filterValue; const cards=group.dataset.filter==='games'?document.querySelectorAll('.game-card'):document.querySelectorAll('.event-card'); cards.forEach(card => card.classList.toggle('hidden-card', target!=='all'&&!card.dataset.category.includes(target))); }));
+  new IntersectionObserver(entries => { if(entries[0].isIntersecting && !counted) { counted = true; document.querySelectorAll('[data-count]').forEach(el => { const target=+el.dataset.count; let n=0; const tick=()=>{ n+=Math.ceil(target/32); if(n<target){el.textContent=n;requestAnimationFrame(tick)}else el.textContent=target+(el.dataset.suffix??'+')};tick(); }); } }, {threshold:.5}).observe(stats);
+  document.querySelectorAll('.filters').forEach(group => group.addEventListener('click', e => { if(e.target.tagName !== 'BUTTON') return; group.querySelector('.active').classList.remove('active'); e.target.classList.add('active'); const target=e.target.dataset.filterValue; const cards=group.dataset.filter==='games'?document.querySelectorAll('.game-card'):document.querySelectorAll('.event-card'); if(group.dataset.filter==='games') document.querySelector('.game-grid').classList.toggle('is-filtered', target!=='all'); cards.forEach(card => card.classList.toggle('hidden-card', target!=='all'&&!card.dataset.category.includes(target))); }));
   const lightbox=document.querySelector('.lightbox'), lightboxImg=lightbox.querySelector('img'); document.querySelectorAll('.gallery-item').forEach(item=>item.addEventListener('click',()=>{lightboxImg.src=item.querySelector('img').src;lightbox.classList.add('open');lightbox.setAttribute('aria-hidden','false')})); lightbox.addEventListener('click',e=>{if(e.target===lightbox||e.target.tagName==='BUTTON'){lightbox.classList.remove('open');lightbox.setAttribute('aria-hidden','true')}});
   document.querySelectorAll('.join-btn').forEach(btn=>btn.addEventListener('click',()=>{document.querySelector('[name="type"]').value='Tournoi';document.querySelector('#reservation').scrollIntoView({behavior:'smooth'});}));
   const form = document.querySelector('.booking-form');
@@ -30,22 +37,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const data = Object.fromEntries(new FormData(form).entries());
     const details = [
-      'NOUVELLE RESERVATION - LE MBONGUI BAR A JEUX',
+      'NOUVELLE RÉSERVATION - LE MBONGUI BAR À JEUX',
       '',
       `Client : ${data.prenom} ${data.nom}`,
-      `Telephone : ${data.telephone}`,
+      `Téléphone : ${data.telephone}`,
       `E-mail : ${data.email}`,
-      `Reservation : ${data.type}`,
+      `Réservation : ${data.type}`,
       `Personnes : ${data.personnes}`,
-      `Date : ${data.date} a ${data.heure}`,
+      `Date : ${data.date} à ${data.heure}`,
       `Message : ${data.message || '-'}`
     ].join('\n');
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(details)}`;
-    const emailUrl = `mailto:${RESERVATION_EMAIL}?subject=${encodeURIComponent(`Reservation - ${data.prenom} ${data.nom}`)}&body=${encodeURIComponent(details)}`;
+    const emailUrl = `mailto:${RESERVATION_EMAIL}?subject=${encodeURIComponent(`Réservation - ${data.prenom} ${data.nom}`)}&body=${encodeURIComponent(details)}`;
     window.open(whatsappUrl, '_blank', 'noopener');
     window.location.href = emailUrl;
     status.style.color = 'var(--lime)';
-    status.textContent = 'Votre demande est prete : envoyez-la sur WhatsApp et par e-mail.';
+    status.textContent = 'Votre demande est prête : envoyez-la sur WhatsApp et par e-mail.';
     form.reset();
   });
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

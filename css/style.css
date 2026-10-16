@@ -9,7 +9,9 @@
 
 .cookie-banner[hidden]{display:none!important}
 
-@keyframes ambientPulse{0%,100%{transform:scale(1);opacity:.22}50%{transform:scale(1.2);opacity:.43}}@keyframes scan{0%{transform:translateY(-120%)}100%{transform:translateY(120%)}}@keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}.hero-glow{animation:ambientPulse 7s ease-in-out infinite}.glow-two{animation-delay:-3s}.hero:after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(transparent 45%,#ff3eb51c 50%,transparent 55%);opacity:.35;animation:scan 11s linear infinite}.floating-card{animation:floatCard 4.5s ease-in-out infinite}.card-bottom{animation-delay:-2.2s}.live-dot{animation:ambientPulse 1.3s ease-in-out infinite}.game-card,.event-card,.price-card{will-change:transform;transform-style:preserve-3d;transition:transform .22s ease,box-shadow .3s ease,border-color .3s ease}.game-card:hover,.event-card:hover{box-shadow:0 22px 40px #0009}.btn-primary{background:linear-gradient(100deg,var(--pink),#c93cff,var(--pink));background-size:200% 100%;animation:shimmer 5s linear infinite}.filters button{transition:transform .2s ease,background .2s ease}.filters button:hover{transform:translateY(-2px)}.hero-stats div{position:relative}.hero-stats div:after{content:'';position:absolute;left:-1px;top:0;width:1px;height:100%;background:var(--lime);box-shadow:0 0 10px var(--lime);animation:ambientPulse 2.7s ease-in-out infinite}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}`r`n`r`n/* Direction artistique Mbongui : palette gabonaise et motifs artisanaux abstraits. */
+@keyframes ambientPulse{0%,100%{transform:scale(1);opacity:.22}50%{transform:scale(1.2);opacity:.43}}@keyframes scan{0%{transform:translateY(-120%)}100%{transform:translateY(120%)}}@keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}.hero-glow{animation:ambientPulse 7s ease-in-out infinite}.glow-two{animation-delay:-3s}.hero:after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(transparent 45%,#ff3eb51c 50%,transparent 55%);opacity:.35;animation:scan 11s linear infinite}.floating-card{animation:floatCard 4.5s ease-in-out infinite}.card-bottom{animation-delay:-2.2s}.live-dot{animation:ambientPulse 1.3s ease-in-out infinite}.game-card,.event-card,.price-card{will-change:transform;transform-style:preserve-3d;transition:transform .22s ease,box-shadow .3s ease,border-color .3s ease}.game-card:hover,.event-card:hover{box-shadow:0 22px 40px #0009}.btn-primary{background:linear-gradient(100deg,var(--pink),#c93cff,var(--pink));background-size:200% 100%;animation:shimmer 5s linear infinite}.filters button{transition:transform .2s ease,background .2s ease}.filters button:hover{transform:translateY(-2px)}.hero-stats div{position:relative}.hero-stats div:after{content:'';position:absolute;left:-1px;top:0;width:1px;height:100%;background:var(--lime);box-shadow:0 0 10px var(--lime);animation:ambientPulse 2.7s ease-in-out infinite}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+
+/* Direction artistique Mbongui : palette gabonaise et motifs artisanaux abstraits. */
 :root{--bg:#090b09;--panel:#11160f;--text:#f6f1e6;--muted:#bbb7aa;--pink:#cc4b3d;--violet:#236bc0;--lime:#e8bb2a;--gabon-green:#1e8246;--gabon-yellow:#e8bb2a;--gabon-blue:#2976c5;--gabon-red:#cc4b3d;--earth:#9b5734;--line:rgba(236,220,178,.17)}
 body{background:radial-gradient(circle at 12% 8%,#1e824624,transparent 25%),radial-gradient(circle at 91% 45%,#cc4b3d1a,transparent 30%),var(--bg)}
 body:before{content:'';position:fixed;z-index:-1;inset:0;pointer-events:none;opacity:.2;background-image:linear-gradient(30deg,transparent 48%,#e8bb2a17 49%,#e8bb2a17 51%,transparent 52%),linear-gradient(-30deg,transparent 48%,#1e82461a 49%,#1e82461a 51%,transparent 52%);background-size:52px 52px}
@@ -26,3 +28,50 @@ body:before{content:'';position:fixed;z-index:-1;inset:0;pointer-events:none;opa
 .heritage-mask.real-mask{right:6%;top:18%;width:190px;height:330px;margin:0;overflow:hidden;clip-path:none;background:#0c100b;border:1px solid #e8bb2a99;border-radius:100px 100px 12px 12px;box-shadow:16px 18px 0 #1e824666,0 0 38px #e8bb2a55;filter:none;animation:maskFloat 6.5s ease-in-out infinite}.heritage-mask.real-mask:before,.heritage-mask.real-mask:after{content:none}.heritage-mask.real-mask img{width:100%;height:100%;object-fit:cover;object-position:center 10%;filter:sepia(.18) contrast(1.12) saturate(.8)}.heritage-mask.real-mask figcaption{position:absolute;z-index:2;bottom:0;left:0;right:0;padding:12px 14px;background:linear-gradient(transparent,#050705 32%);font:700 10px Outfit;letter-spacing:1.2px;color:var(--gabon-yellow)}.heritage-mask.real-mask figcaption span,.heritage-mask.real-mask figcaption small{display:block}.heritage-mask.real-mask figcaption small{margin-top:4px;color:#f2ede0;font-size:8px;letter-spacing:1.5px}
 .heritage{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(240px,.72fr) minmax(160px,.36fr);gap:clamp(25px,5vw,74px);align-items:center;overflow:hidden;background:#12170f;background-image:radial-gradient(circle at 78% 35%,#e8bb2a22,transparent 22%),linear-gradient(135deg,#1e82461a 25%,transparent 25%,transparent 75%,#cc4b3d12 75%);background-size:auto,44px 44px}.heritage:after{content:'';position:absolute;inset:12px;border:1px solid #e8bb2a2b;pointer-events:none}.heritage-copy,.heritage-piece,.heritage-side{position:relative;z-index:1}.heritage-copy h2 strong{color:var(--gabon-yellow)}.heritage-copy>p:not(.eyebrow){max-width:500px;color:#d4d0c4;line-height:1.75}.local-line{margin-top:24px!important;padding:14px 17px;border-left:3px solid var(--gabon-green);background:#0a0d098c;color:var(--gabon-yellow)!important;font-weight:700;font-size:15px}.heritage-notes{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px}.heritage-notes span{font:700 10px Outfit;letter-spacing:1.6px;padding:8px 10px;border:1px solid #e8bb2a66;color:#efe5c6}.heritage-piece{margin:0;transform:rotate(-3deg)}.heritage-photo-wrap{height:430px;overflow:hidden;border:1px solid #e8bb2a88;box-shadow:18px 18px 0 #1e82464a}.heritage-photo-wrap img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 16%;filter:contrast(1.08) saturate(.75)}.heritage-piece figcaption{display:grid;gap:4px;padding:15px 0 0;color:#f4efdf}.heritage-piece figcaption strong{font:700 24px 'Barlow Condensed';letter-spacing:1px}.heritage-piece figcaption span,.heritage-piece figcaption a{font-size:9px;letter-spacing:1.2px;color:var(--gabon-yellow);text-decoration:none}.heritage-piece figcaption a{margin-top:5px;color:#b8b5a8}.heritage-piece figcaption a:hover{color:var(--gabon-yellow)}.heritage-side{align-self:stretch;display:flex;flex-direction:column;justify-content:center;gap:18px;padding-left:20px;border-left:1px solid #e8bb2a55}.heritage-side p{margin:0;font-size:9px;font-weight:700;letter-spacing:1.6px;color:var(--gabon-yellow)}.heritage-side strong{font:800 clamp(28px,3vw,44px)/.84 'Barlow Condensed';color:#f4efe1}.heritage-side span{font-size:11px;line-height:1.65;color:#b8b5a8}
 @media(max-width:900px){.heritage{grid-template-columns:1fr 1fr;gap:36px}.heritage-side{grid-column:span 2;min-height:0;flex-direction:row;align-items:center;padding:18px 0 0;border-left:0;border-top:1px solid #e8bb2a55}.heritage-side span{max-width:380px}.heritage-side strong{font-size:34px}}@media(max-width:720px){.heritage{grid-template-columns:1fr;padding-top:80px;padding-bottom:80px}.heritage-piece{max-width:280px;margin:8px auto;transform:rotate(-2deg)}.heritage-photo-wrap{height:365px}.heritage-side{grid-column:auto;flex-direction:column;align-items:flex-start}.heritage-mask.real-mask{display:block;right:6%;top:160px;width:104px;height:190px;border-radius:60px 60px 7px 7px;opacity:.75}.heritage-mask.real-mask figcaption{padding:8px;font-size:7px}.heritage-mask.real-mask figcaption small{font-size:6px}.hero-visual{opacity:.5}}
+
+/* ===== Phase 0 : correctifs de mise en page ===== */
+
+/* Grille des jeux : 4 cartes, plus de case vide. La 4e carte occupe les 2 colonnes de droite. */
+.game-grid{grid-template-rows:none;grid-auto-rows:230px}
+.game-card:nth-child(4){grid-column:span 2}
+/* Quand un filtre est actif, on revient à une grille simple de 3 colonnes. */
+.game-grid.is-filtered .game-card.large{grid-row:auto}
+.game-grid.is-filtered .game-card:nth-child(4){grid-column:auto}
+
+@media(max-width:720px){
+  .game-grid{grid-template-rows:none;grid-auto-rows:200px}
+  .game-card.large{grid-column:span 2}
+  .game-card:nth-child(4){grid-column:span 2}
+  .game-grid.is-filtered .game-card.large,.game-grid.is-filtered .game-card:nth-child(4){grid-column:auto}
+
+  /* Le masque ne recouvre plus le titre : il passe sous les statistiques. */
+  .hero{flex-direction:column}
+  .hero .heritage-mask.real-mask{position:relative;right:auto;top:auto;align-self:center;margin:38px 0 0;width:132px;height:224px;opacity:.9}
+}
+
+/* Header et dé : plus de débordement horizontal sur téléphone. */
+@media(max-width:720px){
+  .site-header{gap:10px;padding:0 16px}
+  .logo{gap:6px}
+  .logo img{width:38px;height:38px}
+  .nav-cta{white-space:nowrap}
+  .dice{right:6px;bottom:18px;width:68px;height:68px;font-size:42px}
+}
+@media(max-width:420px){.logo em{display:none}}
+
+/* Tournois : la liste se replie au lieu de déborder sur les petits écrans. */
+@media(max-width:720px){
+  .tournaments{grid-template-columns:minmax(0,1fr)}
+  .tournament-list article{flex-wrap:wrap}
+  .tournament-list article>div:nth-child(2){flex:1 1 170px;min-width:0}
+  .join-btn{padding-top:0;margin-left:70px}
+}
+
+/* Colonnes uniques : minmax(0,1fr) empêche un long mot d'élargir toute la page. */
+@media(max-width:720px){
+  .board,.booking,.about,.price-grid,.event-grid{grid-template-columns:minmax(0,1fr)}
+  h2{font-size:clamp(42px,13vw,54px)}
+  h1{font-size:clamp(58px,19vw,75px)}
+}
+@media(max-width:340px){.site-header{gap:6px;padding:0 12px}.nav-cta{padding:9px 9px;font-size:11px}.logo b{font-size:15px}.logo img{width:34px;height:34px}}
+@media(max-width:720px){.game-card div{left:16px;right:12px;bottom:14px}.game-card h3{font-size:24px}}
