@@ -75,3 +75,12 @@ body:before{content:'';position:fixed;z-index:-1;inset:0;pointer-events:none;opa
 }
 @media(max-width:340px){.site-header{gap:6px;padding:0 12px}.nav-cta{padding:9px 9px;font-size:11px}.logo b{font-size:15px}.logo img{width:34px;height:34px}}
 @media(max-width:720px){.game-card div{left:16px;right:12px;bottom:14px}.game-card h3{font-size:24px}}
+
+/* Liens téléphone/e-mail : même couleur que le texte, pas de bleu souligné par défaut. */
+.booking-details a{color:inherit;text-decoration:none}
+.booking-details a:hover{color:var(--gabon-yellow)}
+.footer-main p a{display:inline!important}
+
+/* Case de consentement : le texte et le lien restent sur un seul paragraphe lisible. */
+.booking-form .consent{display:block!important;line-height:1.6}
+.booking-form .consent input{display:inline-block;margin:0 8px 0 0;vertical-align:top}
