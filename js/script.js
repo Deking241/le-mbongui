@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   const WHATSAPP_NUMBER = '24174866022';
   const RESERVATION_EMAIL = 'orphenova0@gmail.com';
+  // Collez ici l'URL de votre deploiement Apps Script (elle se termine par /exec).
+  // Tant qu'elle est vide, le formulaire continue d'envoyer les demandes via WhatsApp et e-mail.
+  const GOOGLE_APPS_SCRIPT_URL = '';
   const banner = document.querySelector('.cookie-banner');
   if (banner && !localStorage.getItem('cookie-choice')) banner.hidden = false;
   banner?.addEventListener('click', e => { const choice = e.target.dataset.cookie; if (!choice) return; localStorage.setItem('cookie-choice', choice); banner.hidden = true; });
@@ -20,7 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.join-btn').forEach(btn=>btn.addEventListener('click',()=>{document.querySelector('[name="type"]').value='Tournoi';document.querySelector('#reservation').scrollIntoView({behavior:'smooth'});}));
   const form = document.querySelector('.booking-form');
   const status = form.querySelector('.form-status');
-  form.addEventListener('submit', e => {
+  const submitBtn = form.querySelector('button[type="submit"], button:not([type])');
+  form.addEventListener('submit', async e => {
     e.preventDefault();
     if (!form.checkValidity()) {
       status.textContent = 'Veuillez renseigner les champs obligatoires.';
@@ -42,6 +46,32 @@ document.addEventListener('DOMContentLoaded', () => {
     ].join('\n');
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(details)}`;
     const emailUrl = `mailto:${RESERVATION_EMAIL}?subject=${encodeURIComponent(`Reservation - ${data.prenom} ${data.nom}`)}&body=${encodeURIComponent(details)}`;
+
+    if (GOOGLE_APPS_SCRIPT_URL) {
+      if (submitBtn) submitBtn.disabled = true;
+      status.style.color = 'var(--lime)';
+      status.textContent = 'Envoi de votre demande...';
+      try {
+        // text/plain evite la requete CORS preflight refusee par Apps Script
+        await fetch(GOOGLE_APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ ...data, source: location.href })
+        });
+        status.style.color = 'var(--lime)';
+        status.textContent = 'Merci ! Votre demande est bien enregistree, nous vous recontactons tres vite.';
+        form.reset();
+      } catch (err) {
+        status.style.color = '#ff78c7';
+        status.textContent = 'Envoi impossible pour le moment : nous ouvrons WhatsApp pour finaliser votre demande.';
+        window.open(whatsappUrl, '_blank', 'noopener');
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+      return;
+    }
+
     window.open(whatsappUrl, '_blank', 'noopener');
     window.location.href = emailUrl;
     status.style.color = 'var(--lime)';
@@ -60,6 +90,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
-
-
