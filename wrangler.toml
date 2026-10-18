@@ -1,6 +1,4 @@
-# Configuration minimal pour Cloudflare Wrangler
-# Ajoute simplement le bloc "previews" requis par l'erreur.
-# Ne modifie aucune autre configuration de production.
-
-[previews]
-features = []
+# Configuration Cloudflare Pages pour le site HTML statique.
+# Le point de sortie est la racine du dépôt, où se trouve index.html.
+name = "le-mbongui"
+pages_build_output_dir = "."
