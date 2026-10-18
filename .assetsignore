@@ -1,0 +1,6 @@
+backend/
+api/
+google-apps-script/
+wrangler.toml
+README.md
+CONFIGURATION_RESERVATIONS.md
