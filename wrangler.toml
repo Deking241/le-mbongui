@@ -2,6 +2,9 @@
 name = "le-mbongui"
 compatibility_date = "2026-10-20"
 
+# Requis par la commande `wrangler preview` utilisée dans Workers Builds.
+[previews]
+
 [assets]
 directory = "./"
 not_found_handling = "404-page"
