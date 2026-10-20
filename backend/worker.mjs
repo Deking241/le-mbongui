@@ -23,7 +23,7 @@ export function validate(input, now = new Date()) {
       throw Error('Champ invalide : ' + key);
     }
     const s = input[key].trim();
-    if ((required && !s) || s.length > max || /[-\u0008\u000b\u000c\u000e-\u001f]/.test(s)) throw Error('Champ invalide : ' + key);
+    if ((required && !s) || s.length > max || /[\u0008\u000b\u000c\u000e-\u001f]/.test(s)) throw Error('Champ invalide : ' + key);
     return s;
   };
   if (get('website', 200, false)) throw Error('Demande refusée.');
@@ -36,7 +36,7 @@ export function validate(input, now = new Date()) {
     || !Number.isFinite(+instant) || new Date(date + 'T00:00:00Z').toISOString().slice(0, 10) !== date
     || instant <= now) throw Error('Choisissez une date et une heure futures (heure de Libreville).');
   const type = get('type', 40), personnes = get('personnes', 40);
-  if (!['Session gaming','Jeux de société','Groupe','Tournoi','Événement'].includes(type)
+  if (!['Session jeu','Session gaming','Jeux de société','Groupe','Tournoi','Événement'].includes(type)
     || !['1 personne','2 personnes','3 à 5 personnes','6 personnes ou plus'].includes(personnes)) throw Error('Formule ou nombre de personnes invalide.');
   return {prenom:get('prenom',80), nom:get('nom',80), telephone:normalizePhone(get('telephone',32)),
     email, type, personnes, date, heure, message:get('message',2000,false), consent:true};

@@ -11,12 +11,14 @@ Ouvrez simplement `index.html` dans votre navigateur. Pour une expérience de d�
 - Nom, adresse, téléphone et e-mail : recherchez `Le Mbongui`, `Libreville`, `+241` et `orphenova0@gmail.com` dans `index.html`.
 - Tarifs : modifiez les montants dans les cartes de la section `#tarifs` de `index.html`.
 - Images : les photos actuelles sont chargées depuis Unsplash. Remplacez les attributs `src` par vos propres fichiers, idéalement déposés dans `images/`.
-- Réservation : le formulaire valide les champs côté navigateur. Branchez son événement `submit` à votre solution e-mail, CRM ou serveur pour traiter réellement les demandes.
+- Réservation : le formulaire envoie les demandes à un Worker Cloudflare, valide Turnstile côté serveur et enregistre les demandes dans D1. Voir `CONFIGURATION_RESERVATIONS.md`.
 
-## Publication GitHub Pages
+## Publication Cloudflare Workers
 
-1. Créez un dépôt GitHub et envoyez le contenu du dossier `projet` à sa racine.
-2. Dans GitHub, ouvrez **Settings → Pages**.
-3. Choisissez la branche `main` et le dossier `/ (root)`, puis enregistrez.
+Le site et l’API utilisent deux configurations séparées :
 
-Aucune étape de compilation ni dépendance n’est nécessaire.
+- Site statique : `npx wrangler deploy --config wrangler.toml`
+- API : `npx wrangler deploy --config wrangler.jsonc`
+- D1 : `npx wrangler d1 execute mbongui-reservations --remote --file=backend/schema.sql --config wrangler.jsonc`
+
+Les secrets `TURNSTILE_SECRET_KEY` et `HASH_SECRET` restent dans Cloudflare et ne doivent pas être ajoutés au dépôt.

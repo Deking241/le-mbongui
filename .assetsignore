@@ -9,3 +9,6 @@
 /api/
 /backend/
 /google-apps-script/
+/node_modules/
+/package.json
+/package-lock.json

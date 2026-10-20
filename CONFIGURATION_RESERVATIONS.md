@@ -1,8 +1,13 @@
 # Réservations privées avec Cloudflare Workers et D1
 
 Cette version remplace le chemin Apps Script / WhatsApp / mailto du formulaire.
-Elle prépare le code, mais ne crée ni compte Cloudflare ni base et ne déploie rien automatiquement.
-Ne fusionnez pas avant d'avoir configuré et testé le backend ainsi que les deux valeurs publiques du formulaire.
+État au 20 octobre 2026 : le Worker API et le site sont déployés, D1 est initialisée,
+et les secrets restent configurés dans Cloudflare. Le formulaire a été corrigé pour accepter
+les dates au format `AAAA-MM-JJ` et le type « Session jeu ».
+L'URL du site est `https://le-mbongui.bernisorphe.workers.dev` et l'API est
+`https://mbongui-reservations.bernisorphe.workers.dev/api/reservations`.
+Le domaine `lembongui.ga` ne résout pas encore en DNS ; utilisez l'URL workers.dev tant que ce point n'est pas réglé.
+Un test de réservation complet avec jeton Turnstile n'a pas été soumis : ne créez pas de fausse réservation pour tester.
 
 ## Fonctionnement
 
@@ -34,9 +39,9 @@ Cette limite IP ne remplace pas une protection réseau contre un déni de servic
 {
   "name": "mbongui-reservations",
   "main": "backend/worker.mjs",
-  "compatibility_date": "2026-10-18",
+  "compatibility_date": "2026-10-20",
   "vars": {
-    "ALLOWED_ORIGINS": "https://le-mbongui.bernisorphe.workers.dev,https://le-mbongui.vercel.app"
+    "ALLOWED_ORIGINS": "https://le-mbongui.bernisorphe.workers.dev,https://le-mbongui.vercel.app,https://lembongui.ga"
   },
   "d1_databases": [{
     "binding": "DB",
@@ -50,18 +55,16 @@ Ne garder que les origines réellement utilisées. Le Worker API est distinct du
 ne pas remplacer la configuration de déploiement du site ni ajouter une liaison `assets` ici.
 
 4. Initialiser la base :
-   `npx wrangler d1 execute mbongui-reservations --remote --file=backend/schema.sql`.
+   `npx wrangler d1 execute mbongui-reservations --remote --file=backend/schema.sql --config wrangler.jsonc`.
 5. Dans Cloudflare Turnstile, créer un widget pour les domaines du site autorisés.
    Utiliser une clé de production, pas une clé de test. Créer le secret serveur :
-   `npx wrangler secret put TURNSTILE_SECRET_KEY`.
+   `npx wrangler secret put TURNSTILE_SECRET_KEY --config wrangler.jsonc`.
 6. Créer un secret aléatoire de 32 octets minimum, stocké dans un gestionnaire de mots de passe,
-   puis `npx wrangler secret put HASH_SECRET`. Ne jamais publier les secrets ni les coller dans une PR.
+   puis `npx wrangler secret put HASH_SECRET --config wrangler.jsonc`. Ne jamais publier les secrets ni les coller dans une PR.
    Changer HASH_SECRET réinitialise de fait les clés de quota : ne pas le faire pour contourner les limites.
-7. Déployer le backend : `npx wrangler deploy`. Noter son URL HTTPS.
-8. Dans `js/script.js`, renseigner les deux valeurs publiques :
-   `RESERVATION_API_URL = 'https://VOTRE-WORKER.workers.dev/api/reservations'`
-   et `TURNSTILE_SITE_KEY = 'VOTRE_CLE_PUBLIQUE'`.
-   Ces valeurs ne sont pas des secrets. Aucune clé secrète ne doit aller dans le navigateur.
+7. Déployer le backend : `npx wrangler deploy --config wrangler.jsonc`. L’URL API et la clé Turnstile publique sont déjà renseignées dans `js/script.js`.
+   Seule la clé publique va dans le navigateur; les secrets restent dans Cloudflare.
+8. Déployer le site statique séparément avec `npx wrangler deploy --config wrangler.toml`.
 9. Tester sur une prévisualisation dont l'origine et le domaine Turnstile sont explicitement autorisés.
    Ne pas activer un joker CORS pour les prévisualisations.
 10. Avant mise en ligne, actualiser `rgpd.html` avec les traitements réellement configurés :
