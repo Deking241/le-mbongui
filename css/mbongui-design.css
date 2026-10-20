@@ -1,0 +1,77 @@
+/* Direction artistique additionnelle — Le Mbongui, identité gabonaise contemporaine.
+   Cette feuille complète css/style.css sans remplacer les styles ni les interactions existants. */
+:root {
+  --mb-green: #21864b;
+  --mb-yellow: #f0c544;
+  --mb-blue: #327fc2;
+  --mb-cream: #f7f1e4;
+  --mb-ink: #090d09;
+}
+:focus-visible {
+  outline: 3px solid var(--mb-yellow);
+  outline-offset: 4px;
+}
+::selection { background: var(--mb-yellow); color: var(--mb-ink); }
+.site-header { border-bottom-color: #f0c54420; }
+.logo b { letter-spacing: 1.2px; }
+.logo em { color: var(--mb-yellow); }
+.nav a { transition: color .2s ease; }
+.nav-cta { border-radius: 4px; transition: transform .2s ease, background .2s ease; }
+.nav-cta:hover { transform: translateY(-2px); }
+.hero { min-height: min(900px, 100svh); }
+.hero-copy { max-width: 650px; }
+.hero .eyebrow { color: var(--mb-cream); }
+.hero h1 { text-shadow: 0 8px 38px #0009; }
+.hero h1 strong { display: inline-block; }
+.hero-text { max-width: 470px; font-size: clamp(15px, 1.3vw, 18px); }
+.hero-image { background-position: center; }
+.hero-visual { pointer-events: none; }
+.floating-card { border-radius: 8px; border-color: #f0c54455; }
+.btn { border-radius: 5px; }
+.btn-primary { color: #071009; font-weight: 800; }
+.section-heading { align-items: end; }
+.section-heading h2, .board-copy h2, .about-copy h2, .booking-copy h2 { text-wrap: balance; }
+.heritage { border-top: 1px solid #f0c5442b; border-bottom: 1px solid #21864b55; }
+.heritage-copy h2 { line-height: .94; }
+.heritage-photo-wrap { border-radius: 5px; }
+.heritage-piece figcaption { gap: 7px; }
+.heritage-side strong { letter-spacing: .5px; }
+.game-card, .event-card, .gallery-item { border-radius: 7px; }
+.game-card img, .event-card img { filter: saturate(.88); }
+.game-card:after, .event-card:after { background: linear-gradient(0deg, #070b07f2 0%, #070b0760 38%, transparent 76%); }
+.game-card div { left: 24px; bottom: 23px; }
+.game-card h3, .event-card h3 { text-wrap: balance; }
+.filters button { border-radius: 5px; }
+.price-card { border-radius: 7px; }
+.price-card.featured { box-shadow: 0 15px 35px #21864b20; }
+.price-card a { color: var(--mb-yellow); }
+.tournament-list article { transition: background .2s ease, padding .2s ease; }
+.tournament-list article:hover { background: #21864b12; padding-left: 10px; padding-right: 10px; }
+.date-box { border-radius: 4px; }
+.join-btn { padding: 10px; border-radius: 4px; }
+.join-btn:hover { color: var(--mb-yellow); }
+.board-art { border-radius: 5px; }
+.board-art img, .about-image img { border-radius: 5px; }
+.board-tags span { border-radius: 4px; }
+.booking-form { border: 1px solid #f0c54435; border-radius: 8px; }
+.booking-form input, .booking-form select, .booking-form textarea { min-width: 0; }
+.booking-form .btn { align-self: stretch; justify-content: space-between; }
+.form-status { line-height: 1.5; }
+footer { border-top-color: #f0c54445; }
+.footer-bottom { align-items: center; }
+@media (min-width: 1200px) {
+  .hero { padding-left: max(9vw, calc((100vw - 1320px) / 2)); }
+  .section { padding-left: max(9vw, calc((100vw - 1320px) / 2)); padding-right: max(9vw, calc((100vw - 1320px) / 2)); }
+}
+@media (max-width: 720px) {
+  .hero { min-height: 720px; }
+  .hero-stats { gap: 12px; }
+  .hero-stats div { padding-left: 9px; }
+  .hero-stats strong { font-size: 25px; }
+  .hero-stats span { letter-spacing: .2px; }
+  .section-heading { margin-bottom: 30px; }
+  .booking-form { padding: 21px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-cta, .nav a, .tournament-list article { transition: none; }
+}
