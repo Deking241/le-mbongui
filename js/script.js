@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Renseigner les deux valeurs publiques après la configuration Cloudflare.
   // Une configuration vide bloque l'envoi : aucun contournement WhatsApp/e-mail.
-  const RESERVATION_API_URL = '';
-  const TURNSTILE_SITE_KEY = '';
+  const RESERVATION_API_URL = 'https://mbongui-reservations.bernisorphe.workers.dev/api/reservations';
+  const TURNSTILE_SITE_KEY = '0x4AAAAAAFdiIqF6hVbbX7ia';
   const banner = document.querySelector('.cookie-banner');
   const storage = {
     get(key) {try {return localStorage.getItem(key);} catch {return null;}},
