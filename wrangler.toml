@@ -1,4 +1,7 @@
-# Configuration Cloudflare Pages pour le site HTML statique.
-# Le point de sortie est la racine du dépôt, où se trouve index.html.
+# Site statique servi par Cloudflare Workers Static Assets.
 name = "le-mbongui"
-pages_build_output_dir = "."
+compatibility_date = "2026-10-20"
+
+[assets]
+directory = "./"
+not_found_handling = "404-page"
