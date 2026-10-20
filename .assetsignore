@@ -1,6 +1,11 @@
-backend/
-api/
-google-apps-script/
-wrangler.toml
-README.md
-CONFIGURATION_RESERVATIONS.md
+.*
+/wrangler.toml
+/wrangler.jsonc
+/README.md
+/PROJECT_CONTEXT.md
+/HANDOFF.md
+/CREDITS.md
+/CONFIGURATION_RESERVATIONS.md
+/api/
+/backend/
+/google-apps-script/
