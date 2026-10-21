@@ -11,14 +11,12 @@ Ouvrez simplement `index.html` dans votre navigateur. Pour une expérience de d�
 - Nom, adresse, téléphone et e-mail : recherchez `Le Mbongui`, `Libreville`, `+241` et `orphenova0@gmail.com` dans `index.html`.
 - Tarifs : modifiez les montants dans les cartes de la section `#tarifs` de `index.html`.
 - Images : les photos actuelles sont chargées depuis Unsplash. Remplacez les attributs `src` par vos propres fichiers, idéalement déposés dans `images/`.
-- Réservation : le formulaire envoie les demandes à un Worker Cloudflare, valide Turnstile côté serveur et enregistre les demandes dans D1. Voir `CONFIGURATION_RESERVATIONS.md`.
+- Réservation : le formulaire envoie automatiquement la demande au Worker Cloudflare, puis Google Apps Script envoie l’e-mail et ajoute la demande au Sheet. Le client n’a pas besoin d’ouvrir Gmail. Voir `CONFIGURATION_RESERVATIONS.md`.
 
 ## Publication Cloudflare Workers
 
-Le site et l’API utilisent deux configurations séparées :
+Le site statique est déployé avec Wrangler :
 
-- Site statique : `npx wrangler deploy --config wrangler.toml`
-- API : `npx wrangler deploy --config wrangler.jsonc`
-- D1 : `npx wrangler d1 execute mbongui-reservations --remote --file=backend/schema.sql --config wrangler.jsonc`
+- Site statique : `npm run deploy:site` (équivalent à `npx wrangler deploy --config wrangler.toml`)
 
-Les secrets `TURNSTILE_SECRET_KEY` et `HASH_SECRET` restent dans Cloudflare et ne doivent pas être ajoutés au dépôt.
+Le Worker Cloudflare sert le site et relaie les réservations vers Google Apps Script. Avant le déploiement, configurez le secret `RESERVATION_WEBHOOK_URL` comme indiqué dans `CONFIGURATION_RESERVATIONS.md`. Il n’y a ni quota D1 ni vérification Turnstile.

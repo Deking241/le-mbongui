@@ -1,0 +1,22 @@
+{
+  "name": "projet",
+  "version": "1.0.0",
+  "description": "Site marketing responsive pour un bar à jeux vidéo et de société, créé en HTML5, CSS3 et JavaScript vanilla.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy:site": "npx wrangler deploy --config wrangler.toml"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deking241/le-mbongui.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/deking241/le-mbongui/issues"
+  },
+  "homepage": "https://github.com/deking241/le-mbongui#readme"
+}
