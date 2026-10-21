@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Renseigner les deux valeurs publiques après la configuration Cloudflare.
+  // Renseigner l'URL publique de l'API après la configuration Cloudflare.
   // Une configuration vide bloque l'envoi : aucun contournement WhatsApp/e-mail.
   const RESERVATION_API_URL = 'https://mbongui-reservations.bernisorphe.workers.dev/api/reservations';
-  const TURNSTILE_SITE_KEY = '0x4AAAAAAFdiIqF6hVbbX7ia';
   const banner = document.querySelector('.cookie-banner');
   const storage = {
     get(key) {try {return localStorage.getItem(key);} catch {return null;}},
@@ -27,46 +26,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('.booking-form');
   const status = form.querySelector('.form-status');
   const submitBtn = form.querySelector('button[type="submit"], button:not([type])');
-  let widget, token = '', busy = false, requestId, previousPayload;
+  let busy = false, requestId, previousPayload;
   const showError = message => {status.style.color = '#ff78c7'; status.textContent = message;};
-  const ready = () => {if (submitBtn) submitBtn.disabled = busy || !token;};
-  const resetChallenge = () => {
-    token = ''; ready();
-    if (widget !== undefined && window.turnstile) window.turnstile.reset(widget);
-  };
-  if (submitBtn) submitBtn.disabled = true;
-  if (!RESERVATION_API_URL || !TURNSTILE_SITE_KEY) {
+  const ready = () => {if (submitBtn) submitBtn.disabled = busy || !RESERVATION_API_URL;};
+  ready();
+  if (!RESERVATION_API_URL) {
     showError('La réservation en ligne est en cours de configuration. Aucun envoi automatique n’est possible pour le moment.');
-  } else {
-    const container = document.createElement('div');
-    form.insertBefore(container, status);
-    window.mbonguiTurnstileReady = () => {
-      try {
-        widget = window.turnstile.render(container, {
-          sitekey: TURNSTILE_SITE_KEY, action: 'reservation', size: 'flexible',
-          callback: value => {token = value; ready();},
-          'expired-callback': () => {token = ''; ready();},
-          'error-callback': () => {token = ''; ready(); showError('Vérification anti-robots indisponible. Rechargez la page.');}
-        });
-      } catch {showError('Vérification anti-robots indisponible. Rechargez la page.');}
-    };
-    const script = document.createElement('script');
-    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=mbonguiTurnstileReady&render=explicit';
-    script.async = true; script.defer = true;
-    script.onerror = () => showError('Impossible de charger la protection anti-robots. Rechargez la page.');
-    document.head.appendChild(script);
   }
   form.addEventListener('submit', async e => {
     e.preventDefault();
     if (busy) return;
-    if (!RESERVATION_API_URL || !TURNSTILE_SITE_KEY || !token) {
-      showError('La réservation en ligne ou la vérification anti-robots n’est pas prête.'); return;
+    if (!RESERVATION_API_URL) {
+      showError('La réservation en ligne est en cours de configuration.'); return;
     }
     if (!form.checkValidity()) {
       showError('Veuillez renseigner les champs obligatoires.'); form.reportValidity(); return;
     }
     const data = Object.fromEntries(new FormData(form).entries());
-    delete data['cf-turnstile-response'];
     const serialized = JSON.stringify(data);
     // Conserver l'identifiant lors d'une reprise réseau, mais pas si les champs changent.
     if (!requestId || serialized !== previousPayload) requestId = crypto.randomUUID();
@@ -76,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const response = await fetch(RESERVATION_API_URL, {
         method:'POST', headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({...data,request_id:requestId,turnstile_token:token}),
+        body:JSON.stringify({...data,request_id:requestId}),
         signal:AbortSignal.timeout(20000)
       });
       const result = await response.json();
@@ -88,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
       showError(e.name === 'TimeoutError' || e.name === 'TypeError'
         ? 'Connexion interrompue. Réessayez sans modifier les champs : une demande déjà enregistrée ne sera pas créée deux fois.'
         : e.message);
-    } finally {busy = false; resetChallenge();}
+    } finally {busy = false; ready();}
   });
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.querySelectorAll('.game-card, .event-card, .price-card').forEach(card => {

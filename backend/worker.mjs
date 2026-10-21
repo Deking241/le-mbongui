@@ -70,28 +70,19 @@ export default {
     if (new URL(request.url).pathname !== '/api/reservations') return reply(404,{error:'Introuvable.'});
     if (request.method === 'OPTIONS') return new Response(null,{status:204, headers});
     if (request.method !== 'POST') return reply(405,{error:'Méthode non autorisée.'},{Allow:'POST, OPTIONS'});
-    if (!env.DB || !env.TURNSTILE_SECRET_KEY || !env.HASH_SECRET) return reply(503,{error:'Réservations temporairement indisponibles.'});
+    if (!env.DB || !env.HASH_SECRET) return reply(503,{error:'Réservations temporairement indisponibles.'});
     if (request.headers.get('Content-Type')?.split(';')[0] !== 'application/json') return reply(415,{error:'Format non pris en charge.'});
     let input, data;
     try {input = await readBody(request);}
     catch (e) {return reply(e.message === 'large' ? 413 : 400,{error:'Demande illisible ou trop volumineuse.'});}
     try {data = validate(input);}
     catch(e) {return reply(400,{error:e.message});}
-    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(input.request_id || '')
-      || typeof input.turnstile_token !== 'string' || !input.turnstile_token || input.turnstile_token.length > 2048) return reply(400,{error:'Vérification anti-robots requise.'});
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(input.request_id || ''))
+      return reply(400,{error:'Identifiant de demande invalide.'});
     // CF-Connecting-IP est fourni par Cloudflare ; ne pas faire confiance à X-Forwarded-For.
     const ip = request.headers.get('CF-Connecting-IP');
     if (!ip) return reply(503,{error:'Vérification réseau indisponible.'});
     try {
-      const verification = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify',{
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({secret:env.TURNSTILE_SECRET_KEY,response:input.turnstile_token,remoteip:ip}),
-        signal:AbortSignal.timeout(10000)
-      });
-      if (!verification.ok) throw Error('verification');
-      const result = await verification.json();
-      if (!result.success || result.hostname !== new URL(origin).hostname || result.action !== 'reservation')
-        return reply(403,{error:'Vérification anti-robots expirée ou refusée. Réessayez.'});
       const key = await crypto.subtle.importKey('raw',encoder.encode(env.HASH_SECRET),{name:'HMAC',hash:'SHA-256'},false,['sign']);
       const hash = async value => Array.from(new Uint8Array(await crypto.subtle.sign('HMAC',key,encoder.encode(value))),x=>x.toString(16).padStart(2,'0')).join('');
       const details = JSON.stringify(data);
@@ -111,7 +102,7 @@ export default {
       }
       return reply(201,{ok:true,id:input.request_id,message:'Demande enregistrée, en attente de confirmation.'});
     } catch {
-      // Ne pas journaliser les coordonnées, les jetons ou les secrets.
+      // Ne pas journaliser les coordonnées personnelles ni les secrets.
       return reply(503,{error:'Envoi impossible pour le moment. Réessayez sans changer vos informations.'});
     }
   }
