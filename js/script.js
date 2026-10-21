@@ -112,49 +112,51 @@ document.addEventListener("DOMContentLoaded", () => {
   const status = form.querySelector(".form-status");
   const submitButton = form.querySelector('button[type="submit"]');
   let submitting = false;
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (submitting) return;
+
     if (!form.checkValidity()) {
       status.style.color = "#ff78c7";
       status.textContent = "Veuillez renseigner les champs obligatoires.";
-      form.reportValidity();
       return;
     }
 
+    const donnees = new FormData(form);
+    if (donnees.get("website")) return;
+    donnees.delete("website");
+    donnees.append("access_key", "71fd3406-d38b-49e7-b5f2-55b3ba804b5a");
+    donnees.append("subject", "Nouvelle réservation - Le Mbongui");
+    donnees.append("from_name", "Site Le Mbongui");
+
     submitting = true;
     submitButton.disabled = true;
-    status.style.color = "var(--muted)";
-    status.textContent = "Envoi de ta demande de réservation…";
+    status.style.color = "";
+    status.textContent = "Envoi en cours...";
 
     try {
-      const response = await fetch("/api/reservations", {
+      const reponse = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(Object.fromEntries(new FormData(form).entries())),
+        body: donnees,
       });
-      const result = await response.json().catch(() => null);
-      if (!response.ok || result?.ok !== true) {
-        throw new Error(
-          result?.error || "Envoi impossible. Réessaie plus tard.",
-        );
-      }
+      const data = await reponse.json();
 
-      status.style.color = "var(--lime)";
-      status.textContent =
-        "Ta demande a été envoyée par e-mail. L’équipe te contactera pour confirmer la disponibilité.";
-      form.reset();
-    } catch (error) {
-      console.error("Échec de l’envoi de la réservation :", error);
+      if (data.success) {
+        status.textContent =
+          "Merci ! Votre demande est enregistrée, en attente de confirmation.";
+        form.reset();
+      } else {
+        status.style.color = "#ff78c7";
+        status.textContent = "Erreur lors de l'envoi, veuillez réessayer.";
+      }
+    } catch (erreur) {
       status.style.color = "#ff78c7";
-      status.textContent =
-        error instanceof Error
-          ? error.message
-          : "Envoi impossible pour le moment. Réessaie ou contacte-nous au +241 074 866 022.";
-    } finally {
-      submitting = false;
-      submitButton.disabled = false;
+      status.textContent = "Connexion impossible, veuillez réessayer.";
     }
+
+    submitting = false;
+    submitButton.disabled = false;
   });
   if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     document
